@@ -14,6 +14,9 @@ const SHOWCASE_LIMIT = 4;
 const FLASH_SALE_LIMIT = 5;
 
 export default async function HomePage() {
+  // Artificial delay
+  await new Promise((resolve) => setTimeout(resolve, 300));
+
   const [newArrivals, bestSellers] = await Promise.all([
     getProducts({ sort: "newest", page: 1, limit: SHOWCASE_LIMIT }),
     getProducts({ sort: "rating-desc", page: 1, limit: SHOWCASE_LIMIT }),

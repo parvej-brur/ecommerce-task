@@ -9,6 +9,7 @@ export {
 } from "./api/products.api";
 export { getAllProducts } from "./api/products.loader";
 export { productKeys } from "./api/products.queries";
+export { ProductDetailSkeleton } from "./components/ProductDetailSkeleton";
 export { ProductDetailView } from "./components/ProductDetailView";
 export { ProductListView } from "./components/ProductListView";
 export { productSearchParamsCache, toProductListParams } from "./utils/searchParams";
