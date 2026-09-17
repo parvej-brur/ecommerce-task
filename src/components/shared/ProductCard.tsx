@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils/cn";
@@ -10,13 +10,23 @@ import type { Product } from "@/types/api";
 import { AddToCartButton } from "./AddToCartButton";
 import { RatingStars } from "./RatingStars";
 
-export function ProductCard({ product }: { product: Product }) {
+type ProductCardProps = {
+  product: Product;
+  onHoverPrefetch?: (productId: string) => void;
+};
+
+export function ProductCard({ product, onHoverPrefetch }: ProductCardProps) {
   const [wishlisted, setWishlisted] = useState(false);
   const stock = getStockStatus(product);
+
+  const handleMouseEnter = useCallback(() => {
+    onHoverPrefetch?.(product.id);
+  }, [onHoverPrefetch, product.id]);
 
   return (
     <Link
       href={`/products/${product.id}`}
+      onMouseEnter={handleMouseEnter}
       className="group relative flex flex-col overflow-hidden rounded-xl border border-border bg-white transition-all duration-200 hover:-translate-y-0.75 hover:shadow-[0_6px_24px_rgba(0,0,0,0.08)]"
     >
       <button
@@ -63,8 +73,13 @@ export function ProductCard({ product }: { product: Product }) {
         <span className="text-[10px] font-semibold tracking-wide text-brand uppercase">
           {product.category}
         </span>
-        <h3 className="line-clamp-2 min-h-9.5 text-sm font-semibold text-zinc-900">{product.title}</h3>
-        <RatingStars rating={product.rating} reviewsCount={product.reviewsCount} />
+        <h3 className="line-clamp-2 min-h-9.5 text-sm font-semibold text-zinc-900">
+          {product.title}
+        </h3>
+        <RatingStars
+          rating={product.rating}
+          reviewsCount={product.reviewsCount}
+        />
 
         <div className="flex items-baseline gap-1.5 pt-0.5">
           <span className="font-mono text-lg font-bold tracking-tight text-brand-dark">
@@ -79,10 +94,16 @@ export function ProductCard({ product }: { product: Product }) {
 
         <div className="mb-1 flex items-center gap-1.5">
           <span className={cn("h-1.5 w-1.5 rounded-full", stock.dotColor)} />
-          <span className={cn("text-[11px] font-medium", stock.textColor)}>{stock.label}</span>
+          <span className={cn("text-[11px] font-medium", stock.textColor)}>
+            {stock.label}
+          </span>
         </div>
 
-        <AddToCartButton product={product} size="sm" className="mt-auto w-full" />
+        <AddToCartButton
+          product={product}
+          size="sm"
+          className="mt-auto w-full"
+        />
       </div>
     </Link>
   );
