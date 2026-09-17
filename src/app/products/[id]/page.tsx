@@ -1,10 +1,21 @@
 import { cache } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import { getProductById, getRelatedProducts, ProductDetailView, productKeys } from "@/features/products";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import {
+  getProductById,
+  getRelatedProducts,
+  ProductDetailView,
+  productKeys,
+} from "@/features/products";
 import { isApiError } from "@/lib/api/errors";
 import type { Product } from "@/types/api";
+
+export const revalidate = 3600;
 
 // React.cache dedupes this within a single request, so generateMetadata and the
 // page body share one lookup instead of hitting the data layer twice.
@@ -35,7 +46,9 @@ export async function generateMetadata({
   };
 }
 
-export default async function ProductPage({ params }: PageProps<"/products/[id]">) {
+export default async function ProductPage({
+  params,
+}: PageProps<"/products/[id]">) {
   const { id } = await params;
   const product = await loadProduct(id);
   if (!product) notFound();
@@ -43,7 +56,10 @@ export default async function ProductPage({ params }: PageProps<"/products/[id]"
   const relatedProducts = await getRelatedProducts(id);
 
   const queryClient = new QueryClient();
-  queryClient.setQueryData(productKeys.detail(id), { product, relatedProducts });
+  queryClient.setQueryData(productKeys.detail(id), {
+    product,
+    relatedProducts,
+  });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
