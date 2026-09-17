@@ -12,23 +12,29 @@
     "generate:products": "node scripts/generate-products.mjs"
   },
   "dependencies": {
-    "next": "16.3.2",
+    "@hookform/resolvers": "5.9.1",
+    "@tanstack/react-query": "5.103.1",
+    "axios": "1.20.0",
+    "next": "16.3.5",
+    "nuqs": "2.10.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "server-only": "^0.0.1",
-    "zod": "^4.6.5"
+    "react-hook-form": "7.88.0",
+    "server-only": "0.0.1",
+    "zod": "4.6.5",
+    "zustand": "5.0.15"
   },
   "devDependencies": {
-    "@faker-js/faker": "^9.9.0",
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.3.2",
-    "eslint-import-resolver-typescript": "^4.4.5",
-    "eslint-plugin-import": "^2.32.0",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "@faker-js/faker": "9.9.0",
+    "@tailwindcss/postcss": "4.3.3",
+    "@types/node": "20.19.43",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.3.5",
+    "eslint-import-resolver-typescript": "4.4.5",
+    "eslint-plugin-import": "2.32.0",
+    "tailwindcss": "4.3.3",
+    "typescript": "5.9.3"
   }
 }
