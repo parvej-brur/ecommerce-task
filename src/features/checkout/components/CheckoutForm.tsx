@@ -80,14 +80,14 @@ export function CheckoutForm({ total, onSuccess }: CheckoutFormProps) {
         <FormField
           id="name"
           label="Full Name"
-          placeholder="John Doe"
+          placeholder="Abdullah Al Mamun"
           error={errors.name?.message}
           {...register("name")}
         />
         <FormField
           id="address"
           label="Address"
-          placeholder="123 Main Street"
+          placeholder="House 12, Road 5, Dhanmondi"
           error={errors.address?.message}
           {...register("address")}
         />
@@ -95,14 +95,14 @@ export function CheckoutForm({ total, onSuccess }: CheckoutFormProps) {
           <FormField
             id="city"
             label="City"
-            placeholder="New York"
+            placeholder="Dhaka"
             error={errors.city?.message}
             {...register("city")}
           />
           <FormField
             id="zip"
             label="ZIP / Postal Code"
-            placeholder="10001"
+            placeholder="1209"
             error={errors.zip?.message}
             {...register("zip")}
           />
