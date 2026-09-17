@@ -7,9 +7,9 @@ export function PromoBanners() {
       <div className="grid grid-cols-1 grid-rows-2 gap-3.5 md:grid-cols-[5fr_4fr]">
         <Link
           href="/shop"
-          className="relative row-span-2 flex min-h-85 flex-col justify-end overflow-hidden rounded-2xl bg-linear-to-b from-brand to-brand-dark p-8 transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(20,51,38,0.25)]"
+          className="relative row-span-2 flex min-h-85 flex-col justify-start overflow-hidden rounded-2xl bg-linear-to-b from-brand to-brand-dark p-8 pt-14 transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(20,51,38,0.25)]"
         >
-          <span className="absolute top-4 left-5 rounded bg-gold px-3 py-1 text-[10px] font-extrabold tracking-wide text-amber-900 uppercase">
+          <span className="absolute top-4 left-8 rounded bg-gold px-3 py-1 text-[10px] font-extrabold tracking-wide text-amber-900 uppercase">
             Weekend
           </span>
           <div className="relative z-10 max-w-[62%]">
