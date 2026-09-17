@@ -1,20 +1,32 @@
 "use client";
 
-import { useMemo } from "react";
+import { useState } from "react";
 import Image from "next/image";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import { formatCurrency } from "@/lib/utils/formatCurrency";
-import { useCartStore } from "@/store/cartStore";
+import type { useOrderTotals } from "../hooks/useOrderTotals";
 
-const TAX_RATE = 0.08;
+type OrderSummaryProps = ReturnType<typeof useOrderTotals>;
 
-export function OrderSummary() {
-  const items = useCartStore((state) => state.items);
-  const itemCount = useMemo(() => items.reduce((total, item) => total + item.quantity, 0), [items]);
-  const subtotal = useMemo(
-    () => items.reduce((total, item) => total + item.price * item.quantity, 0),
-    [items],
-  );
-  const tax = subtotal * TAX_RATE;
+export function OrderSummary({
+  items,
+  itemCount,
+  subtotal,
+  tax,
+  discount,
+  total,
+  promoCode,
+  promoError,
+  applyPromoCode,
+  removePromoCode,
+}: OrderSummaryProps) {
+  const [promoInput, setPromoInput] = useState("");
+
+  function handleApply() {
+    if (!promoInput.trim()) return;
+    applyPromoCode(promoInput);
+  }
 
   return (
     <div className="rounded-xl border border-border bg-white p-6 lg:sticky lg:top-32.5">
@@ -39,6 +51,36 @@ export function OrderSummary() {
         ))}
       </ul>
 
+      <div className="mt-4 border-t border-border pt-4">
+        <div className="mb-1.5 text-xs font-semibold text-zinc-600">Promo Code</div>
+        {promoCode ? (
+          <div className="flex items-center justify-between rounded-lg border border-brand-chip-border bg-brand-light px-3 py-2 text-[13px]">
+            <span className="font-semibold text-brand-dark">{promoCode} applied</span>
+            <button
+              type="button"
+              onClick={removePromoCode}
+              className="text-xs font-semibold text-danger hover:underline"
+            >
+              Remove
+            </button>
+          </div>
+        ) : (
+          <div className="flex gap-2">
+            <Input
+              value={promoInput}
+              onChange={(event) => setPromoInput(event.target.value)}
+              placeholder="Enter code"
+              aria-label="Promo code"
+              className="flex-1"
+            />
+            <Button type="button" variant="secondary" onClick={handleApply} className="shrink-0 px-4">
+              Apply
+            </Button>
+          </div>
+        )}
+        {promoError ? <p className="mt-1.5 text-xs text-danger">{promoError}</p> : null}
+      </div>
+
       <div className="mt-4 flex flex-col gap-2">
         <div className="flex justify-between text-[13px] text-zinc-500">
           <span>Subtotal</span>
@@ -52,9 +94,15 @@ export function OrderSummary() {
           <span>Tax (est.)</span>
           <span className="font-mono">{formatCurrency(tax)}</span>
         </div>
+        {discount > 0 ? (
+          <div className="flex justify-between text-[13px] text-brand">
+            <span>Discount</span>
+            <span className="font-mono">-{formatCurrency(discount)}</span>
+          </div>
+        ) : null}
         <div className="mt-1 flex justify-between border-t border-border pt-3 text-lg font-bold text-brand-dark">
           <span>Total</span>
-          <span className="font-mono">{formatCurrency(subtotal + tax)}</span>
+          <span className="font-mono">{formatCurrency(total)}</span>
         </div>
       </div>
     </div>

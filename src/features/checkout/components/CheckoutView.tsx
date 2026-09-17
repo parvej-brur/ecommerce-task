@@ -10,12 +10,14 @@ import { CheckoutForm } from "./CheckoutForm";
 import { CheckoutProgressSteps } from "./CheckoutProgressSteps";
 import { OrderConfirmation } from "./OrderConfirmation";
 import { OrderSummary } from "./OrderSummary";
+import { useOrderTotals } from "../hooks/useOrderTotals";
 
 export function CheckoutView() {
   const items = useCartStore((state) => state.items);
   const clearCart = useCartStore((state) => state.clearCart);
   const isHydrated = useIsHydrated();
   const [confirmedOrderId, setConfirmedOrderId] = useState<string | null>(null);
+  const totals = useOrderTotals();
 
   if (!isHydrated) {
     return (
@@ -60,12 +62,13 @@ export function CheckoutView() {
 
       <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[1fr_380px]">
         <CheckoutForm
+          total={totals.total}
           onSuccess={(orderId) => {
             clearCart();
             setConfirmedOrderId(orderId);
           }}
         />
-        <OrderSummary />
+        <OrderSummary {...totals} />
       </div>
     </div>
   );

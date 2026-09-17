@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { FormField } from "@/components/forms/FormField";
 import { Button } from "@/components/ui/Button";
 import { ApiRequestError } from "@/lib/api/client";
+import { formatCurrency } from "@/lib/utils/formatCurrency";
 import { useToast } from "@/providers/ToastProvider";
 import { useCheckout } from "../hooks/useCheckout";
 import {
@@ -14,10 +15,11 @@ import {
 import { PaymentMethodFieldset } from "./PaymentMethodFieldset";
 
 interface CheckoutFormProps {
+  total: number;
   onSuccess: (orderId: string) => void;
 }
 
-export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
+export function CheckoutForm({ total, onSuccess }: CheckoutFormProps) {
   const { showToast } = useToast();
   const checkout = useCheckout();
 
@@ -121,7 +123,9 @@ export function CheckoutForm({ onSuccess }: CheckoutFormProps) {
         disabled={isDisabled}
         className="mt-1 w-full py-4"
       >
-        {isDisabled ? "Placing order…" : "Place Order"}
+        {isDisabled
+          ? "Placing order…"
+          : `Place Order (${formatCurrency(total)})`}
       </Button>
       <p className="text-center text-[11px] text-zinc-500">
         <svg
