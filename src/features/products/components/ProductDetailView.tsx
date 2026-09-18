@@ -128,13 +128,18 @@ export function ProductDetailView({ productId }: { productId: string }) {
           )}
 
           <div className="mb-6 flex flex-col gap-3 sm:flex-row">
-            <QuantityStepper value={quantity} onChange={setQuantity} max={product.stock || 99} />
-            <AddToCartButton product={product} quantity={quantity} size="lg" className="flex-1" />
+            <QuantityStepper
+              value={quantity}
+              onChange={setQuantity}
+              max={product.stock || 99}
+              className="w-full sm:w-auto"
+            />
+            <AddToCartButton product={product} quantity={quantity} size="lg" className="w-full sm:flex-1" />
             <button
               type="button"
               onClick={() => toggleWishlistItem(product)}
               className={cn(
-                "flex h-12 items-center justify-center gap-2 rounded-lg border px-4.5 text-sm font-semibold transition-colors",
+                "flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-lg border px-4.5 text-sm font-semibold transition-colors sm:w-auto",
                 wishlisted ? "border-danger/30 bg-red-50 text-danger" : "border-border text-zinc-600 hover:bg-red-50",
               )}
             >
