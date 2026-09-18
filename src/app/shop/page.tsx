@@ -11,6 +11,7 @@ import {
 export const metadata: Metadata = {
   title: "Shop All Products",
   description: "Search, filter, and sort our full product catalog.",
+  alternates: { canonical: "/shop" },
 };
 
 export default async function ShopPage({ searchParams }: PageProps<"/shop">) {

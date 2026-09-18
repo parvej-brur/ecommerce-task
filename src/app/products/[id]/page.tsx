@@ -6,10 +6,12 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
+import { baseOpenGraph } from "@/config/site";
 import {
   getProductById,
   getRelatedProducts,
   ProductDetailView,
+  ProductJsonLd,
   productKeys,
 } from "@/features/products";
 import { isApiError } from "@/lib/api/errors";
@@ -38,7 +40,9 @@ export async function generateMetadata({
   return {
     title: product.title,
     description: product.description,
+    alternates: { canonical: `/products/${id}` },
     openGraph: {
+      ...baseOpenGraph,
       title: product.title,
       description: product.description,
       images: [{ url: product.image }],
@@ -63,6 +67,7 @@ export default async function ProductPage({
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      <ProductJsonLd product={product} />
       <ProductDetailView productId={id} />
     </HydrationBoundary>
   );

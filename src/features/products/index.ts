@@ -11,6 +11,7 @@ export { getAllProducts } from "./api/products.loader";
 export { productKeys } from "./api/products.queries";
 export { ProductDetailSkeleton } from "./components/ProductDetailSkeleton";
 export { ProductDetailView } from "./components/ProductDetailView";
+export { ProductJsonLd } from "./components/ProductJsonLd";
 export { ProductListView } from "./components/ProductListView";
 export { productSearchParamsCache, toProductListParams } from "./utils/searchParams";
 export type { ProductListParams } from "./types";

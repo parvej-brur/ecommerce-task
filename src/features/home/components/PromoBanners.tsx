@@ -30,7 +30,7 @@ export function PromoBanners() {
           </div>
 
           <Image
-            src="/images/mega_sale.png"
+            src="/images/mega-sale.png"
             alt="Shopping cart full of bagged groceries"
             width={181}
             height={174}
@@ -58,7 +58,7 @@ export function PromoBanners() {
             </span>
           </div>
           <Image
-            src="/images/best_deals.png"
+            src="/images/best-deals.png"
             alt="Stack of gift-wrapped boxes"
             width={359}
             height={244}

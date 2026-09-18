@@ -169,7 +169,7 @@ src/
 │   ├── checkout/            Checkout page + loading.tsx
 │   ├── wishlist/             Wishlist page
 │   ├── error.tsx · global-error.tsx · not-found.tsx
-│   └── sitemap.ts · robots.ts · icon.tsx · apple-icon.tsx
+│   └── sitemap.ts · robots.ts · icon.tsx · apple-icon.tsx · opengraph-image.tsx
 ├── features/                Business domains — the only place logic lives
 │   ├── products/            api/ (server + client), components/, hooks/, schemas/, utils/, types.ts, index.ts
 │   ├── cart/                 CartDrawer, CartDrawerItem, index.ts
@@ -178,7 +178,7 @@ src/
 │   └── wishlist/                 WishlistView, index.ts
 ├── components/
 │   ├── ui/                  Design-system primitives (Button, Input, Select, Badge, Skeleton, QuantityStepper)
-│   ├── layout/               Header, Footer, CategoryNav, MobileNavDrawer, AnnouncementBar
+│   ├── layout/               Header, Footer, CategoryNav, MobileNavDrawer, AnnouncementBar, SiteJsonLd
 │   ├── forms/                  Shared FormField wrapper
 │   └── shared/                   ProductGrid/Card, Pagination, EmptyState, ErrorState, Toast, RatingStars
 ├── providers/                AppProviders, QueryProvider (TanStack Query client), ToastProvider
@@ -188,7 +188,7 @@ src/
 │   ├── api/                  client.ts (axios), errors.ts, response.ts, timing.ts
 │   ├── utils/                  cn.ts, formatCurrency.ts, getStockStatus.ts
 │   └── constants/               product-categories.ts
-├── config/                    env.ts (Zod-validated environment)
+├── config/                    env.ts (Zod-validated environment), site.ts (site name/URL/OG defaults)
 ├── styles/                     globals.css (Tailwind `@theme` tokens), fonts.ts
 └── types/                      api.ts (Product, FilterParams, PaginatedProducts, ApiResponse)
 
@@ -429,19 +429,37 @@ is flat, has no cross-slice dependencies, and needs `localStorage` persistence o
 
 ## SEO
 
+- **Root metadata:** `src/config/site.ts` is the single source of truth for the site name,
+  description, URL, and locale. The root layout sets `metadataBase` (so every relative
+  URL-based metadata field resolves to a full URL), a title template (`%s | Sikdar Bazar`), a
+  default description, and site-wide `openGraph`/`twitter` defaults, all inherited by any route
+  that doesn't override them.
+- **Per-route canonical URLs:** `home`, `/shop`, and `/products/[id]` each set their own
+  `alternates.canonical`. Canonical isn't auto-derived from the route, so it's declared
+  explicitly per page rather than inherited, which would otherwise leave every page pointing at
+  `/`.
 - **Per-product metadata:** `generateMetadata` on `/products/[id]` reads the product
   server-side (through the same `React.cache()`-wrapped lookup the page body uses) and sets
-  `title`, `description`, and Open Graph `title`/`description`/`images`, fully rendered on the
-  server, so crawlers see real per-product tags with no client JS involved.
-- **Root metadata:** the root layout sets a title template (`%s | Sikdar Bazar`) and a default
-  description, inherited by every route that doesn't override it.
-- **Static route metadata:** `ShopPage` exports a plain `metadata` object.
-- **Non-indexable routes:** `CheckoutPage` sets `robots: { index: false }`, a cart/checkout
-  flow has no reason to be indexed.
-- **`sitemap.ts`:** generates one entry per product (550 URLs, `lastModified` from the
-  product's `createdAt`) plus the homepage, using `NEXT_PUBLIC_SITE_URL`.
-- **`robots.ts`:** allows everything except `/cart`, `/checkout`, and `/api/`, and points to
-  `/sitemap.xml`.
+  `title`, `description`, canonical URL, and Open Graph `title`/`description`/`images` (the
+  actual product photo), fully rendered on the server, so crawlers see real per-product tags
+  with no client JS involved.
+- **Default Open Graph image:** `src/app/opengraph-image.tsx` generates a branded 1200×630
+  card (via `next/og`, same pattern as `icon.tsx`/`apple-icon.tsx`) used as the fallback
+  `og:image`/`twitter:image` for any route that doesn't set its own — product pages still win
+  with their own photo since a route-level `openGraph.images` always takes priority over the
+  file-based default.
+- **Structured data (JSON-LD):** `SiteJsonLd` (root layout) emits `Organization` and `WebSite`
+  schema.org data with a `SearchAction` pointing at `/shop?search=`, for brand/sitelinks-search
+  eligibility. `ProductJsonLd` (product pages) emits `Product` schema with price, `BDT`
+  currency, stock availability, and aggregate rating, enabling rich results (stars/price/stock)
+  in search listings.
+- **Non-indexable routes:** `CheckoutPage`, `WishlistPage`, and the `/login` stub set
+  `robots: { index: false }` — none of them have content that's meaningful or unique to a
+  crawler (checkout and wishlist are personalized/client-state pages, login is unshipped).
+- **`sitemap.ts`:** generates the homepage, `/shop`, and one entry per product (550 URLs,
+  `lastModified` from the product's `createdAt`), using `NEXT_PUBLIC_SITE_URL`.
+- **`robots.ts`:** allows everything except `/cart`, `/checkout`, `/wishlist`, and `/api/`, and
+  points to `/sitemap.xml`.
 - **Rendering strategy:** because the product detail and shop pages are Server Components,
   their initial HTML already contains real product content, so there's no "blank shell + client
   fetch" gap for crawlers or for `<meta>` consumers like social-link unfurlers to fall into.
@@ -480,7 +498,8 @@ is flat, has no cross-slice dependencies, and needs `localStorage` persistence o
   a dedicated `MobileNavDrawer` for small screens, a responsive checkout grid that stacks the
   order summary under the form below `lg`).
 - Product and category images use `next/image` with descriptive `alt` text and explicit `sizes`
-  for correct responsive loading.
+  for correct responsive loading. Static assets in `public/images/` follow one consistent
+  kebab-case naming convention.
 
 This wasn't run through a full accessibility audit, these are the concrete patterns actually
 in the code, not a certified compliance claim.

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import {
   CategorySidebar,
   FlashSaleSection,
@@ -12,6 +13,10 @@ import { getAllProducts, getProducts } from "@/features/products";
 
 const SHOWCASE_LIMIT = 4;
 const FLASH_SALE_LIMIT = 5;
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default async function HomePage() {
   // Artificial delay

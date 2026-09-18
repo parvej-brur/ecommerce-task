@@ -1,24 +1,31 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { SiteJsonLd } from "@/components/layout/SiteJsonLd";
+import { baseOpenGraph, siteConfig } from "@/config/site";
 import { CartDrawer } from "@/features/cart";
 import { AppProviders } from "@/providers/AppProviders";
 import { fontVariables } from "@/styles/fonts";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Sikdar Bazar - Everything you need, delivered to your doorstep",
-    template: "%s | Sikdar Bazar",
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.name}`,
   },
-  description:
-    "Shop electronics, fashion, home essentials, books & more — all in one place with free delivery and easy returns.",
+  description: siteConfig.description,
+  openGraph: baseOpenGraph,
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${fontVariables} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-surface text-brand-dark">
+        <SiteJsonLd />
         <AppProviders>
           <Header />
           <main className="flex-1">{children}</main>
