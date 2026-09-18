@@ -7,15 +7,28 @@ import Link from "next/link";
 const AUTO_ADVANCE_MS = 4000;
 
 const BANNERS = [
-  { src: "/images/banner-01.png", alt: "Electronics, fashion, home & sports essentials" },
-  { src: "/images/banner-02.png", alt: "Displays, appliances, apparel & outdoor gear" },
+  {
+    src: "/images/banner-01.png",
+    alt: "Electronics, fashion, home & sports essentials",
+  },
+  {
+    src: "/images/banner-02.png",
+    alt: "Displays, appliances, apparel & outdoor gear",
+  },
+  {
+    src: "/images/banner-03.png",
+    alt: "Coffee maker, kettle, cookbooks & kitchen tools",
+  },
 ];
 
 export function HeroBannerCarousel() {
   const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => setIndex((current) => (current + 1) % BANNERS.length), AUTO_ADVANCE_MS);
+    const interval = setInterval(
+      () => setIndex((current) => (current + 1) % BANNERS.length),
+      AUTO_ADVANCE_MS,
+    );
     return () => clearInterval(interval);
   }, []);
 
@@ -27,7 +40,11 @@ export function HeroBannerCarousel() {
 
   return (
     <div className="relative hidden w-2/5 shrink-0 items-center justify-center md:flex">
-      <Link href="/shop" className="relative h-56 w-full max-w-115 px-4" aria-label="Shop all products">
+      <Link
+        href="/shop"
+        className="relative h-56 w-full max-w-110 mr-4"
+        aria-label="Shop all products"
+      >
         <Image
           key={banner.src}
           src={banner.src}
@@ -46,7 +63,15 @@ export function HeroBannerCarousel() {
           aria-label="Previous banner"
           className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 text-white hover:bg-white/10"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+          >
             <polyline points="15 18 9 12 15 6" />
           </svg>
         </button>
@@ -57,7 +82,11 @@ export function HeroBannerCarousel() {
               type="button"
               onClick={() => goTo(dotIndex)}
               aria-label={`Show banner ${dotIndex + 1}`}
-              className={dotIndex === index ? "h-1.5 w-5 rounded-full bg-gold" : "h-1.5 w-1.5 rounded-full bg-white/30"}
+              className={
+                dotIndex === index
+                  ? "h-1.5 w-5 rounded-full bg-gold"
+                  : "h-1.5 w-1.5 rounded-full bg-white/30"
+              }
             />
           ))}
         </div>
@@ -67,7 +96,15 @@ export function HeroBannerCarousel() {
           aria-label="Next banner"
           className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 text-white hover:bg-white/10"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+          >
             <polyline points="9 18 15 12 9 6" />
           </svg>
         </button>

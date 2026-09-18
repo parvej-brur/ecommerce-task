@@ -6,9 +6,6 @@ const NAV_LINKS = [
   { label: "New Arrivals", href: "/shop?sort=newest" },
   { label: "Best Sellers", href: "/shop?sort=rating-desc" },
   { label: "Flash Sale", href: "#flash-sale" },
-  { label: "Store Locator", href: "#" },
-  { label: "Blog", href: "#" },
-  { label: "Contact Us", href: "#" },
 ];
 
 export function HomeNavRow() {
