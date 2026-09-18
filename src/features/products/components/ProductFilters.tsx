@@ -1,52 +1,22 @@
 "use client";
 
-import { Star } from "lucide-react";
 import { useQueryStates } from "nuqs";
 import { Select } from "@/components/ui/Select";
 import { PRODUCT_CATEGORIES } from "@/lib/constants/product-categories";
 import { cn } from "@/lib/utils/cn";
 import { SORT_OPTIONS } from "../schemas/product-filters.schema";
 import {
+  PRICE_RANGES,
+  RATING_OPTIONS,
+  SORT_LABELS,
+  activePriceRangeKey,
+  activeRatingKey,
+} from "../utils/filterOptions";
+import {
   RESET_PRODUCT_FILTERS,
   productSearchParamsParsers,
 } from "../utils/searchParams";
-
-const SORT_LABELS: Record<(typeof SORT_OPTIONS)[number], string> = {
-  newest: "Newest",
-  "price-asc": "Price: Low → High",
-  "price-desc": "Price: High → Low",
-  "rating-desc": "Highest Rated",
-};
-
-const PRICE_RANGES = [
-  { key: "all", label: "Any Price", priceMin: null, priceMax: null },
-  { key: "0-50", label: "Under ৳50", priceMin: null, priceMax: 50 },
-  { key: "50-100", label: "৳50 – ৳100", priceMin: 50, priceMax: 100 },
-  { key: "100-300", label: "৳100 – ৳300", priceMin: 100, priceMax: 300 },
-  { key: "300+", label: "৳300+", priceMin: 300, priceMax: null },
-] as const;
-
-const RATING_OPTIONS = [
-  { key: "all", label: "Any Rating", stars: null, minRating: null },
-  { key: "4", label: "4 Stars & Up", stars: 4, minRating: 4 },
-  { key: "3", label: "3 Stars & Up", stars: 3, minRating: 3 },
-  { key: "2", label: "2 Stars & Up", stars: 2, minRating: 2 },
-] as const;
-
-function activePriceRangeKey(
-  priceMin: number | null,
-  priceMax: number | null,
-): string {
-  const match = PRICE_RANGES.find(
-    (range) => range.priceMin === priceMin && range.priceMax === priceMax,
-  );
-  return match?.key ?? "all";
-}
-
-function activeRatingKey(minRating: number | null): string {
-  const match = RATING_OPTIONS.find((option) => option.minRating === minRating);
-  return match?.key ?? "all";
-}
+import { RatingOptionLabel } from "./RatingOptionLabel";
 
 export function ProductFilters() {
   const [filters, setFilters] = useQueryStates(productSearchParamsParsers);
@@ -65,7 +35,7 @@ export function ProductFilters() {
   const activeRating = activeRatingKey(filters.minRating);
 
   return (
-    <aside className="w-full shrink-0 rounded-xl border border-border bg-white p-5 lg:sticky lg:top-32.5 lg:w-60">
+    <aside className="hidden w-full shrink-0 rounded-xl border border-border bg-white p-5 lg:sticky lg:top-32.5 lg:block lg:w-60">
       <div className="mb-4 flex items-center justify-between">
         <span className="text-sm font-bold text-brand-dark">Filters</span>
         {hasActiveFilters ? (
@@ -179,27 +149,10 @@ export function ProductFilters() {
               }
               className="accent-brand"
             />
-            <span
-              className={cn(
-                "flex items-center gap-1",
-                activeRating === option.key
-                  ? "font-semibold text-brand-dark"
-                  : "text-zinc-600",
-              )}
-              aria-label={option.label}
-            >
-              {option.stars !== null ? (
-                <>
-                  <span className="flex items-center gap-0.5 text-gold" aria-hidden="true">
-                    {option.stars}
-                    <Star className="size-3.5 fill-gold" />
-                  </span>
-                  <span aria-hidden="true">& Up</span>
-                </>
-              ) : (
-                option.label
-              )}
-            </span>
+            <RatingOptionLabel
+              option={option}
+              active={activeRating === option.key}
+            />
           </label>
         ))}
       </div>

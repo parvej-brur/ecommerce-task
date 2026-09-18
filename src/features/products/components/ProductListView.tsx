@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronRight, Star, X } from "lucide-react";
-import { useCallback, useMemo } from "react";
+import { Fragment, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
 import { useQueryStates } from "nuqs";
@@ -19,6 +19,8 @@ import {
   productSearchParamsParsers,
   toProductListParams,
 } from "../utils/searchParams";
+import { buildListingCrumbs } from "../utils/listingCrumbs";
+import { MobileFilterBar } from "./MobileFilterBar";
 import { ProductFilters } from "./ProductFilters";
 
 export function ProductListView() {
@@ -52,9 +54,8 @@ export function ProductListView() {
     [data, prefetchProduct],
   );
 
-  const listingTitle = filters.search
-    ? `Search results for "${filters.search}"`
-    : (filters.category ?? "All Products");
+  const crumbs = buildListingCrumbs(filters);
+  const listingTitle = crumbs[crumbs.length - 1].label;
 
   const chips: { key: string; label: React.ReactNode; onRemove: () => void }[] = [];
   if (filters.search)
@@ -97,13 +98,31 @@ export function ProductListView() {
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-6">
-      <div className="mb-4 flex items-center gap-1.5 text-xs text-zinc-500">
+      <nav
+        aria-label="Breadcrumb"
+        className="mb-4 flex flex-wrap items-center gap-1.5 text-xs text-zinc-500"
+      >
         <Link href="/" className="hover:text-brand">
           Home
         </Link>
-        <ChevronRight className="size-3.5" />
-        <span className="font-semibold text-brand-dark">{listingTitle}</span>
-      </div>
+        {crumbs.map((crumb) => (
+          <Fragment key={crumb.label}>
+            <ChevronRight className="size-3.5 shrink-0" aria-hidden="true" />
+            {crumb.href ? (
+              <Link href={crumb.href} className="hover:text-brand">
+                {crumb.label}
+              </Link>
+            ) : (
+              <span
+                aria-current="page"
+                className="font-semibold text-brand-dark"
+              >
+                {crumb.label}
+              </span>
+            )}
+          </Fragment>
+        ))}
+      </nav>
 
       <div className="mb-5 flex flex-wrap items-baseline justify-between gap-2">
         <h1 className="text-2xl font-extrabold tracking-tight text-brand-dark">
@@ -115,6 +134,8 @@ export function ProductListView() {
           </span>
         ) : null}
       </div>
+
+      <MobileFilterBar total={data?.total} />
 
       <div className="flex flex-col items-start gap-6 lg:flex-row">
         <ProductFilters />
