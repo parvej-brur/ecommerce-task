@@ -10,7 +10,7 @@ import {
   type MerchantProvider,
   type PaymentMethod,
 } from "../utils/paymentMethods";
-import { PaymentLogo, type PaymentBrand } from "./PaymentLogo";
+import { PaymentLogo, type PaymentBrand } from "@/components/ui/PaymentLogo";
 import { QrPreviewGraphic } from "./QrPreviewGraphic";
 
 interface PaymentMethodFieldsetProps {

@@ -1,4 +1,4 @@
-import { PaymentLogo } from "./PaymentLogo";
+import { PaymentLogo } from "@/components/ui/PaymentLogo";
 
 const QR_SIZE = 21;
 const FINDER_POSITIONS = [

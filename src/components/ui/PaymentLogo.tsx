@@ -1,8 +1,15 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils/cn";
-import type { MerchantProvider } from "../utils/paymentMethods";
 
-export type PaymentBrand = "visa" | "mastercard" | "paypal" | MerchantProvider | "bangla-qr" | "bangla-qr-mark";
+export type PaymentBrand =
+  | "visa"
+  | "mastercard"
+  | "paypal"
+  | "bkash"
+  | "nagad"
+  | "upay"
+  | "bangla-qr"
+  | "bangla-qr-mark";
 
 interface PaymentLogoProps {
   brand: PaymentBrand;

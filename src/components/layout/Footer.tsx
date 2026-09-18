@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useToast } from "@/providers/ToastProvider";
+import { PaymentLogo, type PaymentBrand } from "@/components/ui/PaymentLogo";
 
 const EXTERNAL_PROFILE_URL = "https://parvej.is-a.dev/";
 const CONTACT_PHONE_DISPLAY = "+880 1677-905085";
@@ -40,13 +41,13 @@ const FOOTER_COLUMNS: { title: string; links: FooterLink[] }[] = [
   { title: "Information", links: INFORMATION_LINKS },
 ];
 
-const PAYMENT_METHODS: { name: string; bg: string; text: string }[] = [
-  { name: "VISA", bg: "bg-white", text: "text-[#1A1F71]" },
-  { name: "Mastercard", bg: "bg-white", text: "text-[#EB001B]" },
-  { name: "PayPal", bg: "bg-white", text: "text-[#003087]" },
-  { name: "bKash", bg: "bg-white", text: "text-[#E2136E]" },
-  { name: "Nagad", bg: "bg-white", text: "text-[#F7941D]" },
-  { name: "Upay", bg: "bg-white", text: "text-[#7B2FBE]" },
+const PAYMENT_METHODS: PaymentBrand[] = [
+  "visa",
+  "mastercard",
+  "paypal",
+  "bkash",
+  "nagad",
+  "upay",
 ];
 
 function FooterColumnLink({ link }: { link: FooterLink }) {
@@ -150,13 +151,13 @@ export function Footer() {
         <span className="text-xs text-white/35">
           © {new Date().getFullYear()} Sikdar Bazar. All Rights Reserved.
         </span>
-        <div className="flex flex-wrap gap-2">
-          {PAYMENT_METHODS.map((method) => (
+        <div className="flex flex-wrap items-center gap-2">
+          {PAYMENT_METHODS.map((brand) => (
             <span
-              key={method.name}
-              className={`rounded px-2.5 py-1 text-[11px] font-extrabold italic tracking-tight ${method.bg} ${method.text}`}
+              key={brand}
+              className="flex h-7 items-center rounded bg-white px-2"
             >
-              {method.name}
+              <PaymentLogo brand={brand} size="sm" />
             </span>
           ))}
         </div>
