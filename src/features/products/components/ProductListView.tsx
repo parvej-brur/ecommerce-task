@@ -77,6 +77,12 @@ export function ProductListView() {
       onRemove: () => setFilters({ priceMin: null, priceMax: null, page: 1 }),
     });
   }
+  if (filters.minRating != null) {
+    chips.push({
+      label: `${filters.minRating}★ & up`,
+      onRemove: () => setFilters({ minRating: null, page: 1 }),
+    });
+  }
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-6">

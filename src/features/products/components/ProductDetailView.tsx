@@ -7,9 +7,11 @@ import { AddToCartButton } from "@/components/shared/AddToCartButton";
 import { ErrorState } from "@/components/shared/ErrorState";
 import { RatingStars } from "@/components/shared/RatingStars";
 import { QuantityStepper } from "@/components/ui/QuantityStepper";
+import { useIsHydrated } from "@/hooks/useIsHydrated";
 import { cn } from "@/lib/utils/cn";
 import { formatCurrency } from "@/lib/utils/formatCurrency";
 import { getStockStatus } from "@/lib/utils/getStockStatus";
+import { useWishlistStore } from "@/store/wishlistStore";
 import { useProductDetail } from "../hooks/useProductDetail";
 import { ProductDetailSkeleton } from "./ProductDetailSkeleton";
 import { RelatedProducts } from "./RelatedProducts";
@@ -17,7 +19,12 @@ import { RelatedProducts } from "./RelatedProducts";
 export function ProductDetailView({ productId }: { productId: string }) {
   const { product, relatedProducts, isLoading, error, refetch } = useProductDetail(productId);
   const [quantity, setQuantity] = useState(1);
-  const [wishlisted, setWishlisted] = useState(false);
+  const isHydrated = useIsHydrated();
+  const isWishlisted = useWishlistStore((state) =>
+    product ? state.items.some((item) => item.id === product.id) : false,
+  );
+  const toggleWishlistItem = useWishlistStore((state) => state.toggleItem);
+  const wishlisted = isHydrated && isWishlisted;
 
   if (error) {
     return (
@@ -126,7 +133,7 @@ export function ProductDetailView({ productId }: { productId: string }) {
             <AddToCartButton product={product} quantity={quantity} size="lg" className="flex-1" />
             <button
               type="button"
-              onClick={() => setWishlisted((value) => !value)}
+              onClick={() => toggleWishlistItem(product)}
               className={cn(
                 "flex h-12 items-center justify-center gap-2 rounded-lg border px-4.5 text-sm font-semibold transition-colors",
                 wishlisted ? "border-danger/30 bg-red-50 text-danger" : "border-border text-zinc-600 hover:bg-red-50",

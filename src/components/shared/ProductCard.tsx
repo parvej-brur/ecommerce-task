@@ -1,11 +1,13 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useIsHydrated } from "@/hooks/useIsHydrated";
 import { cn } from "@/lib/utils/cn";
 import { formatCurrency } from "@/lib/utils/formatCurrency";
 import { getStockStatus } from "@/lib/utils/getStockStatus";
+import { useWishlistStore } from "@/store/wishlistStore";
 import type { Product } from "@/types/api";
 import { AddToCartButton } from "./AddToCartButton";
 import { RatingStars } from "./RatingStars";
@@ -16,7 +18,10 @@ type ProductCardProps = {
 };
 
 export function ProductCard({ product, onHoverPrefetch }: ProductCardProps) {
-  const [wishlisted, setWishlisted] = useState(false);
+  const isHydrated = useIsHydrated();
+  const isWishlisted = useWishlistStore((state) => state.items.some((item) => item.id === product.id));
+  const toggleWishlistItem = useWishlistStore((state) => state.toggleItem);
+  const wishlisted = isHydrated && isWishlisted;
   const stock = getStockStatus(product);
 
   const handleMouseEnter = useCallback(() => {
@@ -33,7 +38,7 @@ export function ProductCard({ product, onHoverPrefetch }: ProductCardProps) {
         type="button"
         onClick={(event) => {
           event.preventDefault();
-          setWishlisted((value) => !value);
+          toggleWishlistItem(product);
         }}
         aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
         aria-pressed={wishlisted}
