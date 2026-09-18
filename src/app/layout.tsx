@@ -8,10 +8,11 @@ import "@/styles/globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "PS Bazaar — Everything you need, delivered to your doorstep",
-    template: "%s | PS Bazaar",
+    default: "Sikdar Bazar - Everything you need, delivered to your doorstep",
+    template: "%s | Sikdar Bazar",
   },
-  description: "Shop electronics, fashion, home essentials, books & more — all in one place with free delivery and easy returns.",
+  description:
+    "Shop electronics, fashion, home essentials, books & more — all in one place with free delivery and easy returns.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

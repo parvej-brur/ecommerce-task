@@ -30,7 +30,7 @@ export function Header() {
             </svg>
           </div>
           <div>
-            <div className="text-xl leading-none font-extrabold tracking-tight text-brand-dark">PS Bazaar</div>
+            <div className="text-xl leading-none font-extrabold tracking-tight text-brand-dark">Sikdar Bazar</div>
             <div className="mt-0.5 text-[9px] font-semibold tracking-widest text-brand uppercase">
               Premium Store
             </div>

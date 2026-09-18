@@ -106,7 +106,7 @@ export function Footer() {
               </svg>
             </div>
             <span className="text-xl font-extrabold tracking-tight">
-              PS Bazaar
+              Sikdar Bazar
             </span>
           </div>
           <p className="max-w-70 text-[13px] leading-relaxed text-white/50">
@@ -148,7 +148,7 @@ export function Footer() {
 
       <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 border-t border-white/10 px-6 py-4">
         <span className="text-xs text-white/35">
-          © {new Date().getFullYear()} PS Bazaar. All Rights Reserved.
+          © {new Date().getFullYear()} Sikdar Bazar. All Rights Reserved.
         </span>
         <div className="flex flex-wrap gap-2">
           {PAYMENT_METHODS.map((method) => (
