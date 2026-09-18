@@ -79,12 +79,12 @@ export function ProductCard({ product, onHoverPrefetch }: ProductCardProps) {
           reviewsCount={product.reviewsCount}
         />
 
-        <div className="flex items-baseline gap-1.5 pt-0.5">
-          <span className="font-mono text-lg font-bold tracking-tight text-brand-dark">
+        <div className="flex flex-wrap items-baseline gap-x-1 gap-y-0 pt-0.5 sm:gap-x-1.5">
+          <span className="font-mono text-base font-bold tracking-tight text-brand-dark sm:text-lg">
             {formatCurrency(product.price)}
           </span>
           {product.originalPrice ? (
-            <span className="font-mono text-xs text-zinc-400 line-through">
+            <span className="font-mono text-[10px] text-zinc-400 line-through sm:text-xs">
               {formatCurrency(product.originalPrice)}
             </span>
           ) : null}

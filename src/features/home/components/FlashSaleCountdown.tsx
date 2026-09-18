@@ -24,7 +24,7 @@ export function FlashSaleCountdown() {
   const seconds = remainingMs == null ? "00" : formatSegment(remainingMs % 60_000, 1000);
 
   return (
-    <div className="ml-auto flex gap-1" aria-label="Flash sale ends in">
+    <div className="flex gap-1 sm:ml-auto" aria-label="Flash sale ends in">
       <span className="min-w-9 rounded-md bg-brand-dark px-2.5 py-1.5 text-center font-mono text-sm font-bold text-white">
         {hours}
       </span>
