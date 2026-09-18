@@ -4,6 +4,9 @@ import { apiError, apiSuccess } from "@/lib/api/response";
 import { withTiming } from "@/lib/api/timing";
 import type { FilterParams } from "@/types/api";
 
+// Response depends on query params (category, sort, page, …); never cache.
+export const dynamic = "force-dynamic";
+
 function parseFilters(params: URLSearchParams): FilterParams {
   return {
     search: params.get("search") ?? undefined,
