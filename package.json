@@ -9,6 +9,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test",
     "generate:products": "node scripts/generate-products.mjs"
   },
   "dependencies": {
