@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronRight, Star, X } from "lucide-react";
 import { useCallback, useMemo } from "react";
 import Link from "next/link";
 import { useQueryClient } from "@tanstack/react-query";
@@ -55,19 +56,22 @@ export function ProductListView() {
     ? `Search results for "${filters.search}"`
     : (filters.category ?? "All Products");
 
-  const chips: { label: string; onRemove: () => void }[] = [];
+  const chips: { key: string; label: React.ReactNode; onRemove: () => void }[] = [];
   if (filters.search)
     chips.push({
+      key: "search",
       label: `"${filters.search}"`,
       onRemove: () => setFilters({ search: null, page: 1 }),
     });
   if (filters.category)
     chips.push({
+      key: "category",
       label: filters.category,
       onRemove: () => setFilters({ category: null, page: 1 }),
     });
   if (filters.priceMin != null || filters.priceMax != null) {
     chips.push({
+      key: "price",
       label:
         filters.priceMin != null && filters.priceMax != null
           ? `৳${filters.priceMin} – ৳${filters.priceMax}`
@@ -79,7 +83,14 @@ export function ProductListView() {
   }
   if (filters.minRating != null) {
     chips.push({
-      label: `${filters.minRating}★ & up`,
+      key: "rating",
+      label: (
+        <span className="inline-flex items-center gap-1">
+          {filters.minRating}
+          <Star className="size-3 fill-gold text-gold" />
+          & up
+        </span>
+      ),
       onRemove: () => setFilters({ minRating: null, page: 1 }),
     });
   }
@@ -90,7 +101,7 @@ export function ProductListView() {
         <Link href="/" className="hover:text-brand">
           Home
         </Link>
-        <span>›</span>
+        <ChevronRight className="size-3.5" />
         <span className="font-semibold text-brand-dark">{listingTitle}</span>
       </div>
 
@@ -113,17 +124,17 @@ export function ProductListView() {
             <div className="mb-4 flex flex-wrap gap-2">
               {chips.map((chip) => (
                 <span
-                  key={chip.label}
+                  key={chip.key}
                   className="inline-flex items-center gap-1.5 rounded-full border border-brand-chip-border bg-brand-light px-3 py-1 text-xs font-medium text-brand"
                 >
                   {chip.label}
                   <button
                     type="button"
                     onClick={chip.onRemove}
-                    aria-label={`Remove ${chip.label} filter`}
-                    className="text-sm opacity-60 hover:opacity-100"
+                    aria-label={`Remove ${chip.key} filter`}
+                    className="opacity-60 hover:opacity-100"
                   >
-                    ×
+                    <X className="size-3" strokeWidth={2.5} />
                   </button>
                 </span>
               ))}

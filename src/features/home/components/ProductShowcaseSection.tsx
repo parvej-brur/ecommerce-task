@@ -1,3 +1,4 @@
+import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { ProductGrid } from "@/components/shared/ProductGrid";
 import type { Product } from "@/types/api";
@@ -21,9 +22,10 @@ export function ProductShowcaseSection({ title, subtitle, viewAllHref, products 
         </div>
         <Link
           href={viewAllHref}
-          className="rounded-lg border border-border px-4 py-2 text-xs font-semibold text-brand hover:border-brand hover:bg-brand-light"
+          className="flex items-center gap-1 rounded-lg border border-border px-4 py-2 text-xs font-semibold text-brand hover:border-brand hover:bg-brand-light"
         >
-          View All →
+          View All
+          <ArrowRight className="size-3.5" strokeWidth={2.5} />
         </Link>
       </div>
       <ProductGrid products={products} />

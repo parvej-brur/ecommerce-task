@@ -1,11 +1,15 @@
 "use client";
 
+import { Star } from "lucide-react";
 import { useQueryStates } from "nuqs";
 import { Select } from "@/components/ui/Select";
 import { PRODUCT_CATEGORIES } from "@/lib/constants/product-categories";
 import { cn } from "@/lib/utils/cn";
 import { SORT_OPTIONS } from "../schemas/product-filters.schema";
-import { RESET_PRODUCT_FILTERS, productSearchParamsParsers } from "../utils/searchParams";
+import {
+  RESET_PRODUCT_FILTERS,
+  productSearchParamsParsers,
+} from "../utils/searchParams";
 
 const SORT_LABELS: Record<(typeof SORT_OPTIONS)[number], string> = {
   newest: "Newest",
@@ -23,14 +27,19 @@ const PRICE_RANGES = [
 ] as const;
 
 const RATING_OPTIONS = [
-  { key: "all", label: "Any Rating", minRating: null },
-  { key: "4", label: "4★ & up", minRating: 4 },
-  { key: "3", label: "3★ & up", minRating: 3 },
-  { key: "2", label: "2★ & up", minRating: 2 },
+  { key: "all", label: "Any Rating", stars: null, minRating: null },
+  { key: "4", label: "4 Stars & Up", stars: 4, minRating: 4 },
+  { key: "3", label: "3 Stars & Up", stars: 3, minRating: 3 },
+  { key: "2", label: "2 Stars & Up", stars: 2, minRating: 2 },
 ] as const;
 
-function activePriceRangeKey(priceMin: number | null, priceMax: number | null): string {
-  const match = PRICE_RANGES.find((range) => range.priceMin === priceMin && range.priceMax === priceMax);
+function activePriceRangeKey(
+  priceMin: number | null,
+  priceMax: number | null,
+): string {
+  const match = PRICE_RANGES.find(
+    (range) => range.priceMin === priceMin && range.priceMax === priceMax,
+  );
   return match?.key ?? "all";
 }
 
@@ -49,7 +58,10 @@ export function ProductFilters() {
     filters.priceMin != null ||
     filters.priceMax != null ||
     filters.minRating != null;
-  const activePriceKey = activePriceRangeKey(filters.priceMin, filters.priceMax);
+  const activePriceKey = activePriceRangeKey(
+    filters.priceMin,
+    filters.priceMax,
+  );
   const activeRating = activeRatingKey(filters.minRating);
 
   return (
@@ -68,7 +80,9 @@ export function ProductFilters() {
       </div>
 
       <div className="mb-4.5">
-        <div className="mb-2 text-[11px] font-bold tracking-wide text-zinc-400 uppercase">Category</div>
+        <div className="mb-2 text-[11px] font-bold tracking-wide text-zinc-400 uppercase">
+          Category
+        </div>
         <label className="flex cursor-pointer items-center gap-2 py-1 text-[13px]">
           <input
             type="radio"
@@ -77,12 +91,21 @@ export function ProductFilters() {
             onChange={() => setFilters({ category: null, page: 1 })}
             className="accent-brand"
           />
-          <span className={cn(filters.category ? "text-zinc-600" : "font-semibold text-brand-dark")}>
+          <span
+            className={cn(
+              filters.category
+                ? "text-zinc-600"
+                : "font-semibold text-brand-dark",
+            )}
+          >
             All Categories
           </span>
         </label>
         {PRODUCT_CATEGORIES.map((category) => (
-          <label key={category} className="flex cursor-pointer items-center gap-2 py-1 text-[13px]">
+          <label
+            key={category}
+            className="flex cursor-pointer items-center gap-2 py-1 text-[13px]"
+          >
             <input
               type="radio"
               name="category"
@@ -90,7 +113,13 @@ export function ProductFilters() {
               onChange={() => setFilters({ category, page: 1 })}
               className="accent-brand"
             />
-            <span className={cn(filters.category === category ? "font-semibold text-brand-dark" : "text-zinc-600")}>
+            <span
+              className={cn(
+                filters.category === category
+                  ? "font-semibold text-brand-dark"
+                  : "text-zinc-600",
+              )}
+            >
               {category}
             </span>
           </label>
@@ -98,17 +127,34 @@ export function ProductFilters() {
       </div>
 
       <div className="mb-4.5">
-        <div className="mb-2 text-[11px] font-bold tracking-wide text-zinc-400 uppercase">Price Range</div>
+        <div className="mb-2 text-[11px] font-bold tracking-wide text-zinc-400 uppercase">
+          Price Range
+        </div>
         {PRICE_RANGES.map((range) => (
-          <label key={range.key} className="flex cursor-pointer items-center gap-2 py-1 text-[13px]">
+          <label
+            key={range.key}
+            className="flex cursor-pointer items-center gap-2 py-1 text-[13px]"
+          >
             <input
               type="radio"
               name="price"
               checked={activePriceKey === range.key}
-              onChange={() => setFilters({ priceMin: range.priceMin, priceMax: range.priceMax, page: 1 })}
+              onChange={() =>
+                setFilters({
+                  priceMin: range.priceMin,
+                  priceMax: range.priceMax,
+                  page: 1,
+                })
+              }
               className="accent-brand"
             />
-            <span className={cn(activePriceKey === range.key ? "font-semibold text-brand-dark" : "text-zinc-600")}>
+            <span
+              className={cn(
+                activePriceKey === range.key
+                  ? "font-semibold text-brand-dark"
+                  : "text-zinc-600",
+              )}
+            >
               {range.label}
             </span>
           </label>
@@ -116,29 +162,59 @@ export function ProductFilters() {
       </div>
 
       <div className="mb-4.5">
-        <div className="mb-2 text-[11px] font-bold tracking-wide text-zinc-400 uppercase">Rating</div>
+        <div className="mb-2 text-[11px] font-bold tracking-wide text-zinc-400 uppercase">
+          Rating
+        </div>
         {RATING_OPTIONS.map((option) => (
-          <label key={option.key} className="flex cursor-pointer items-center gap-2 py-1 text-[13px]">
+          <label
+            key={option.key}
+            className="flex cursor-pointer items-center gap-2 py-1 text-[13px]"
+          >
             <input
               type="radio"
               name="rating"
               checked={activeRating === option.key}
-              onChange={() => setFilters({ minRating: option.minRating, page: 1 })}
+              onChange={() =>
+                setFilters({ minRating: option.minRating, page: 1 })
+              }
               className="accent-brand"
             />
-            <span className={cn(activeRating === option.key ? "font-semibold text-brand-dark" : "text-zinc-600")}>
-              {option.label}
+            <span
+              className={cn(
+                "flex items-center gap-1",
+                activeRating === option.key
+                  ? "font-semibold text-brand-dark"
+                  : "text-zinc-600",
+              )}
+              aria-label={option.label}
+            >
+              {option.stars !== null ? (
+                <>
+                  <span className="flex items-center gap-0.5 text-gold" aria-hidden="true">
+                    {option.stars}
+                    <Star className="size-3.5 fill-gold" />
+                  </span>
+                  <span aria-hidden="true">& Up</span>
+                </>
+              ) : (
+                option.label
+              )}
             </span>
           </label>
         ))}
       </div>
 
       <div>
-        <div className="mb-2 text-[11px] font-bold tracking-wide text-zinc-400 uppercase">Sort By</div>
+        <div className="mb-2 text-[11px] font-bold tracking-wide text-zinc-400 uppercase">
+          Sort By
+        </div>
         <Select
           value={filters.sort ?? "newest"}
           onChange={(event) =>
-            setFilters({ sort: event.target.value as (typeof SORT_OPTIONS)[number], page: 1 })
+            setFilters({
+              sort: event.target.value as (typeof SORT_OPTIONS)[number],
+              page: 1,
+            })
           }
         >
           {SORT_OPTIONS.map((option) => (

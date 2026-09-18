@@ -1,3 +1,4 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
 interface PaginationProps {
@@ -29,9 +30,10 @@ export function Pagination({ currentPage, totalPages, onPageChange, disabled }: 
         type="button"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={disabled || currentPage <= 1}
-        className="rounded-md border border-border bg-white px-3.5 py-2 font-sans text-[13px] text-zinc-700 hover:border-brand disabled:cursor-not-allowed disabled:opacity-40"
+        className="flex items-center gap-1 rounded-md border border-border bg-white px-3.5 py-2 font-sans text-[13px] text-zinc-700 hover:border-brand disabled:cursor-not-allowed disabled:opacity-40"
       >
-        ← Prev
+        <ChevronLeft className="size-3.5" strokeWidth={2.5} />
+        Prev
       </button>
       {getVisiblePages(currentPage, totalPages).map((page) => (
         <button
@@ -54,9 +56,10 @@ export function Pagination({ currentPage, totalPages, onPageChange, disabled }: 
         type="button"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={disabled || currentPage >= totalPages}
-        className="rounded-md border border-border bg-white px-3.5 py-2 font-sans text-[13px] text-zinc-700 hover:border-brand disabled:cursor-not-allowed disabled:opacity-40"
+        className="flex items-center gap-1 rounded-md border border-border bg-white px-3.5 py-2 font-sans text-[13px] text-zinc-700 hover:border-brand disabled:cursor-not-allowed disabled:opacity-40"
       >
-        Next →
+        Next
+        <ChevronRight className="size-3.5" strokeWidth={2.5} />
       </button>
     </nav>
   );

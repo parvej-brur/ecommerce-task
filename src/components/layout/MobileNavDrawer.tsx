@@ -1,5 +1,6 @@
 "use client";
 
+import { User, X } from "lucide-react";
 import { useEffect } from "react";
 import Link from "next/link";
 import { useToast } from "@/providers/ToastProvider";
@@ -40,18 +41,7 @@ export function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProps) {
               onClick={() => showToast("info", COMING_SOON_MESSAGE)}
               className="ml-auto flex items-center gap-1.5 py-1 text-white/90 hover:text-white"
             >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-              >
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
+              <User className="size-4" strokeWidth={1.8} />
               <span className="text-xs font-semibold">Account</span>
             </button>
 
@@ -85,18 +75,7 @@ export function MobileNavDrawer({ isOpen, onClose }: MobileNavDrawerProps) {
           aria-label="Close menu"
           className="mt-3 ml-14 flex h-9 w-9 shrink-0 items-center justify-center text-white hover:text-white/80"
         >
-          <svg
-            width="26"
-            height="26"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-          >
-            <line x1="18" y1="6" x2="6" y2="18" />
-            <line x1="6" y1="6" x2="18" y2="18" />
-          </svg>
+          <X className="size-6.5" strokeWidth={3} />
         </button>
       </div>
     </>

@@ -1,5 +1,6 @@
 "use client";
 
+import { Heart } from "lucide-react";
 import { useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -44,18 +45,10 @@ export function ProductCard({ product, onHoverPrefetch }: ProductCardProps) {
         aria-pressed={wishlisted}
         className="absolute top-2.5 right-2.5 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 shadow-sm transition-transform hover:scale-110"
       >
-        <svg
-          width="15"
-          height="15"
-          viewBox="0 0 24 24"
-          fill={wishlisted ? "#e53935" : "none"}
-          stroke={wishlisted ? "#e53935" : "#888"}
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-        </svg>
+        <Heart
+          className={cn("size-4", wishlisted ? "fill-danger text-danger" : "text-zinc-400")}
+          strokeWidth={2}
+        />
       </button>
 
       {product.discount ? (

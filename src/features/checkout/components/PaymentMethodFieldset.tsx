@@ -1,3 +1,4 @@
+import { Check, CreditCard } from "lucide-react";
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
 import { FormField } from "@/components/forms/FormField";
 import { cn } from "@/lib/utils/cn";
@@ -38,18 +39,7 @@ const METHOD_LOGO_SIZE: Record<PaymentMethod, "sm" | "xl"> = {
 function CheckBadge() {
   return (
     <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-brand text-white ring-2 ring-white">
-      <svg
-        width="11"
-        height="11"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="3"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <path d="M20 6 9 17l-5-5" />
-      </svg>
+      <Check className="size-2.5" strokeWidth={3} />
     </span>
   );
 }
@@ -97,18 +87,7 @@ export function PaymentMethodFieldset({
                     <PaymentLogo key={brand} brand={brand} size={METHOD_LOGO_SIZE[method]} />
                   ))
                 ) : (
-                  <svg
-                    width="22"
-                    height="22"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="#1b6d44"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                  >
-                    <rect x="2" y="6" width="20" height="14" rx="2" />
-                    <path d="M2 10h20" />
-                  </svg>
+                  <CreditCard className="size-5.5 text-[#1b6d44]" strokeWidth={2} />
                 )}
               </div>
               {PAYMENT_METHOD_LABELS[method] === "Cash on Delivery" && (
