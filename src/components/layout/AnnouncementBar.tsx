@@ -31,23 +31,25 @@ const ANNOUNCEMENTS = [
 
 export function AnnouncementBar() {
   return (
-    <div className="hidden items-center justify-center gap-8 bg-brand-dark px-6 py-2 text-xs font-medium tracking-wide text-white md:flex">
-      {ANNOUNCEMENTS.map((item) => (
-        <span key={item.label} className="flex items-center gap-1.5">
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#4ade80"
-            strokeWidth="2"
-            strokeLinecap="round"
-          >
-            {item.icon}
-          </svg>
-          {item.label}
-        </span>
-      ))}
+    <div className="hidden bg-brand-dark md:block">
+      <div className="mx-auto flex max-w-7xl items-center justify-center gap-8 px-6 py-2 text-xs font-medium tracking-wide text-white">
+        {ANNOUNCEMENTS.map((item) => (
+          <span key={item.label} className="flex items-center gap-1.5">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#4ade80"
+              strokeWidth="2"
+              strokeLinecap="round"
+            >
+              {item.icon}
+            </svg>
+            {item.label}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }

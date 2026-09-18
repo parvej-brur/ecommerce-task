@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils/cn";
 
-const NAV_ITEMS = [
+export const NAV_ITEMS = [
   { label: "Home", href: "/" },
   { label: "Deals", href: "/shop" },
   { label: "New Arrivals", href: "/shop?sort=newest" },
@@ -27,21 +27,23 @@ export function CategoryNav() {
   }
 
   return (
-    <nav className="flex items-center gap-0 overflow-x-auto bg-brand px-6">
-      {NAV_ITEMS.map((item) => (
-        <Link
-          key={item.label}
-          href={item.href}
-          className={cn(
-            "border-b-2 px-4 py-2.75 font-sans text-[13px] whitespace-nowrap transition-colors hover:bg-white/10 hover:text-white",
-            isActive(item.href)
-              ? "border-gold font-bold text-white"
-              : "border-transparent font-semibold text-white/80",
-          )}
-        >
-          {item.label}
-        </Link>
-      ))}
+    <nav className="bg-brand">
+      <div className="mx-auto flex max-w-7xl items-center gap-5 overflow-x-auto px-6">
+        {NAV_ITEMS.map((item) => (
+          <Link
+            key={item.label}
+            href={item.href}
+            className={cn(
+              "border-b-2 py-2.75 font-sans text-[13px] whitespace-nowrap transition-colors hover:text-white hover:border-white/50",
+              isActive(item.href)
+                ? "border-gold font-bold text-white"
+                : "border-transparent font-semibold text-white/80",
+            )}
+          >
+            {item.label}
+          </Link>
+        ))}
+      </div>
     </nav>
   );
 }

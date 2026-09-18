@@ -1,13 +1,15 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { CategoryNav } from "@/components/layout/CategoryNav";
 import { HeaderSearchBar } from "@/components/layout/HeaderSearchBar";
+import { MobileNavDrawer } from "@/components/layout/MobileNavDrawer";
 import { useIsHydrated } from "@/hooks/useIsHydrated";
 import { useCartStore } from "@/store/cartStore";
+import { useWishlistStore } from "@/store/wishlistStore";
 
 export function Header() {
   const pathname = usePathname();
@@ -15,12 +17,28 @@ export function Header() {
   const items = useCartStore((state) => state.items);
   const toggleCart = useCartStore((state) => state.toggleCart);
   const cartCount = isHydrated ? items.reduce((total, item) => total + item.quantity, 0) : 0;
+  const wishlistItems = useWishlistStore((state) => state.items);
+  const wishlistCount = isHydrated ? wishlistItems.length : 0;
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-white font-sans">
       <AnnouncementBar />
 
-      <div className="flex items-center gap-5 px-6 py-3">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-4 py-3 md:px-6">
+        <button
+          type="button"
+          onClick={() => setIsMenuOpen(true)}
+          aria-label="Open menu"
+          className="flex shrink-0 items-center p-1 text-zinc-700 hover:text-brand md:hidden"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+
         <Link href="/" className="flex shrink-0 items-center gap-2.5">
           <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-brand">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.5" strokeLinecap="round">
@@ -42,15 +60,20 @@ export function Header() {
         </Suspense>
 
         <div className="flex shrink-0 items-center gap-1.5">
-          <button
-            type="button"
-            className="hidden flex-col items-center gap-0.5 px-3 py-1.5 text-zinc-700 hover:text-brand md:flex"
+          <Link
+            href="/wishlist"
+            className="relative flex flex-col items-center gap-0.5 px-3 py-1.5 text-zinc-700 hover:text-brand"
           >
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
             </svg>
             <span className="text-[10px] font-semibold">Wishlist</span>
-          </button>
+            {wishlistCount > 0 && (
+              <span className="absolute top-0 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-danger text-[9px] font-bold text-white">
+                {wishlistCount}
+              </span>
+            )}
+          </Link>
           <button
             type="button"
             onClick={toggleCart}
@@ -86,6 +109,8 @@ export function Header() {
           <CategoryNav />
         </Suspense>
       ) : null}
+
+      <MobileNavDrawer isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
     </header>
   );
 }
