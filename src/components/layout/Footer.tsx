@@ -5,6 +5,7 @@ import { useToast } from "@/providers/ToastProvider";
 import { PaymentLogo, type PaymentBrand } from "@/components/ui/PaymentLogo";
 
 const EXTERNAL_PROFILE_URL = "https://parvej.is-a.dev/";
+const EXTERNAL_GITHUB_URL = "https://github.com/parvej-brur/";
 const CONTACT_PHONE_DISPLAY = "+880 1677-905085";
 const CONTACT_PHONE_HREF = "tel:+8801677905085";
 const COMING_SOON_MESSAGE = "Coming soon...";
@@ -29,7 +30,7 @@ const CUSTOMER_SERVICE_LINKS: FooterLink[] = [
 ];
 
 const INFORMATION_LINKS: FooterLink[] = [
-  { label: "About Us", href: EXTERNAL_PROFILE_URL, external: true },
+  { label: "About Us", href: EXTERNAL_GITHUB_URL, external: true },
   { label: "Privacy Policy", comingSoon: true },
   { label: "Terms & Conditions", comingSoon: true },
   { label: "Contact Us", href: EXTERNAL_PROFILE_URL, external: true },
