@@ -22,7 +22,7 @@ what each page actually needs.
   <img alt="Zod" src="https://img.shields.io/badge/Zod-3E67B1?logo=zod&logoColor=white">
 </p>
 
-**[Preview](#preview)** · **[Getting started](#getting-started)** · **[Architecture](#architecture)**
+**[Live demo](https://sikdarbazar.netlify.app)** · **[Preview](#preview)** · **[Getting started](#getting-started)** · **[Architecture](#architecture)**
 
 </div>
 
@@ -55,11 +55,11 @@ what each page actually needs.
 
 A walkthrough of the storefront: browsing, filtering, product detail, cart, and checkout.
 
-https://github.com/parvej-brur/e-commerce-task/raw/main/public/videos/preview.mp4
+![Sikdar Bazar walkthrough](docs/media/preview.gif)
 
-If the video above doesn't render inline, it's also available directly at
-[`public/videos/preview.mp4`](public/videos/preview.mp4). No hosted deployment is attached to
-this submission, so run it locally with [Getting started](#getting-started).
+▶️ **[Watch the full walkthrough (MP4)](https://github.com/parvej-brur/ecommerce-task/raw/main/public/videos/preview.mp4)**
+
+Live version: **[sikdarbazar.netlify.app](https://sikdarbazar.netlify.app)**.
 
 <p align="right"><a href="#top">Back to top</a></p>
 
@@ -124,8 +124,8 @@ dependency boundary: a feature can't import another feature, and shared code onl
 **Prerequisites:** Node 20+ and npm.
 
 ```bash
-git clone https://github.com/parvej-brur/e-commerce-task.git
-cd e-commerce-task
+git clone https://github.com/parvej-brur/ecommerce-task.git
+cd ecommerce-task
 npm install
 cp .env.example .env.local
 npm run dev
@@ -192,7 +192,8 @@ src/
 ├── styles/                     globals.css (Tailwind `@theme` tokens), fonts.ts
 └── types/                      api.ts (Product, FilterParams, PaginatedProducts, ApiResponse)
 
-public/videos/     preview.mp4 (walkthrough, referenced in the Preview section)
+public/videos/     preview.mp4 (full walkthrough, linked from the Preview section)
+docs/media/         preview.gif (looping preview rendered inline in the Preview section)
 tests/              mirrors src/ — filterProducts, sortProducts, paginateProducts, cartStore
 scripts/             generate-products.mjs — seeded Faker dataset generator
 ```
@@ -512,7 +513,8 @@ in the code, not a certified compliance claim.
 
 Built by **Parvej Sikdar** as a take-home frontend submission.
 
+- Live demo: [sikdarbazar.netlify.app](https://sikdarbazar.netlify.app)
 - GitHub: [@parvej-brur](https://github.com/parvej-brur)
-- Repository: [github.com/parvej-brur/e-commerce-task](https://github.com/parvej-brur/e-commerce-task)
+- Repository: [github.com/parvej-brur/ecommerce-task](https://github.com/parvej-brur/ecommerce-task)
 
 <p align="right"><a href="#top">Back to top</a></p>
