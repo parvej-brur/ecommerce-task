@@ -1,6 +1,7 @@
 "use client";
 
 import { Button, type ButtonProps } from "@/components/ui/Button";
+import { cn } from "@/lib/utils/cn";
 import { useToast } from "@/providers/ToastProvider";
 import { useCartStore } from "@/store/cartStore";
 import type { Product } from "@/types/api";
@@ -10,7 +11,12 @@ interface AddToCartButtonProps extends Omit<ButtonProps, "onClick"> {
   quantity?: number;
 }
 
-export function AddToCartButton({ product, quantity = 1, ...buttonProps }: AddToCartButtonProps) {
+export function AddToCartButton({
+  product,
+  quantity = 1,
+  className,
+  ...buttonProps
+}: AddToCartButtonProps) {
   const addItem = useCartStore((state) => state.addItem);
   const { showToast } = useToast();
 
@@ -28,7 +34,12 @@ export function AddToCartButton({ product, quantity = 1, ...buttonProps }: AddTo
   };
 
   return (
-    <Button onClick={handleAddToCart} disabled={!product.inStock} {...buttonProps}>
+    <Button
+      onClick={handleAddToCart}
+      disabled={!product.inStock}
+      className={cn("cursor-pointer", className)}
+      {...buttonProps}
+    >
       {product.inStock ? (
         <>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
