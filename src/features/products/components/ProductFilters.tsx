@@ -22,8 +22,20 @@ const PRICE_RANGES = [
   { key: "300+", label: "৳300+", priceMin: 300, priceMax: null },
 ] as const;
 
+const RATING_OPTIONS = [
+  { key: "all", label: "Any Rating", minRating: null },
+  { key: "4", label: "4★ & up", minRating: 4 },
+  { key: "3", label: "3★ & up", minRating: 3 },
+  { key: "2", label: "2★ & up", minRating: 2 },
+] as const;
+
 function activePriceRangeKey(priceMin: number | null, priceMax: number | null): string {
   const match = PRICE_RANGES.find((range) => range.priceMin === priceMin && range.priceMax === priceMax);
+  return match?.key ?? "all";
+}
+
+function activeRatingKey(minRating: number | null): string {
+  const match = RATING_OPTIONS.find((option) => option.minRating === minRating);
   return match?.key ?? "all";
 }
 
@@ -31,8 +43,14 @@ export function ProductFilters() {
   const [filters, setFilters] = useQueryStates(productSearchParamsParsers);
 
   const hasActiveFilters =
-    filters.search || filters.category || filters.sort || filters.priceMin != null || filters.priceMax != null;
+    filters.search ||
+    filters.category ||
+    filters.sort ||
+    filters.priceMin != null ||
+    filters.priceMax != null ||
+    filters.minRating != null;
   const activePriceKey = activePriceRangeKey(filters.priceMin, filters.priceMax);
+  const activeRating = activeRatingKey(filters.minRating);
 
   return (
     <aside className="w-full shrink-0 rounded-xl border border-border bg-white p-5 lg:sticky lg:top-32.5 lg:w-60">
@@ -92,6 +110,24 @@ export function ProductFilters() {
             />
             <span className={cn(activePriceKey === range.key ? "font-semibold text-brand-dark" : "text-zinc-600")}>
               {range.label}
+            </span>
+          </label>
+        ))}
+      </div>
+
+      <div className="mb-4.5">
+        <div className="mb-2 text-[11px] font-bold tracking-wide text-zinc-400 uppercase">Rating</div>
+        {RATING_OPTIONS.map((option) => (
+          <label key={option.key} className="flex cursor-pointer items-center gap-2 py-1 text-[13px]">
+            <input
+              type="radio"
+              name="rating"
+              checked={activeRating === option.key}
+              onChange={() => setFilters({ minRating: option.minRating, page: 1 })}
+              className="accent-brand"
+            />
+            <span className={cn(activeRating === option.key ? "font-semibold text-brand-dark" : "text-zinc-600")}>
+              {option.label}
             </span>
           </label>
         ))}
