@@ -26,7 +26,9 @@ export async function GET(request: NextRequest) {
     const result = await withTiming("GET /api/products", () =>
       getProducts(filters),
     );
-    return apiSuccess(result);
+    // apiSuccess defaults to a 1h public cache; this route's output varies per
+    // query string, so the CDN must never cache it.
+    return apiSuccess(result, { cacheControl: "no-store" });
   } catch (error) {
     return apiError(error);
   }
